@@ -13,14 +13,15 @@ module NCO_Enable #
     (parameter INPUT_FREQ=50_000_000,
     parameter OUTPUT_FREQ=25_175_000)
     (input wire clk,
+    output wire clk_copy,
     output reg enable=0);
     
-    `define INCREMENT ((1_048_576.0 * OUTPUT_FREQ)/INPUT_FREQ)
-    
+    parameter [63:0] INCREMENT =((1_048_576.0 * OUTPUT_FREQ)/INPUT_FREQ);
+    assign clk_copy=clk;
     reg [19:0] Counter=0;
     
     always @(posedge clk)begin
-        {enable,Counter}<=Counter+`INCREMENT;
+        {enable,Counter}<=Counter+INCREMENT;
     end
 
 
